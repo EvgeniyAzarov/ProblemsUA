@@ -1,4 +1,8 @@
 venv/
+TA/
 .env
 *.sqlite3
 .idea
+
+**/__pycache__/
+*.py[cod]
