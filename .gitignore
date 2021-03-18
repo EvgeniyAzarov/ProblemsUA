@@ -1,6 +1,6 @@
 venv/
 TA/
-.env
+problemsua/.env
 *.sqlite3
 .idea
 
