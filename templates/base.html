@@ -1,0 +1,28 @@
+{% load static %}
+
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="{% static 'bootstrap/css/bootstrap.css' %}"
+    />
+    <title>Problems ua</title>
+</head>
+<body>
+
+{% include 'header.html' %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+</body>
+</html>
