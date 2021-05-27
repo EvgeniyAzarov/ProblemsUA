@@ -16,6 +16,15 @@ class Theme(models.Model):
                                null=True, blank=True)
 
 
+class Source(models.Model):
+    name = models.CharField(max_length=500)
+    country = models.CharField(max_length=100, blank=True)
+    year = models.IntegerField()
+
+    def __str__(self):
+        return self.name + f' ({self.country}, {self.year})'
+
+
 class Problem(models.Model):
     name = models.CharField(max_length=255, blank=True,
                             help_text="This field is not necessary")
@@ -23,14 +32,17 @@ class Problem(models.Model):
     difficulty = models.FloatField(null=True, blank=True)
     attributes = models.ManyToManyField(Attribute, blank=True)
     parents = models.ManyToManyField('self', blank=True)
+    source = models.ForeignKey(Source, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         if self.name:
             return self.name
         else:
-            return self.text[:80]
+            return self.text[:80] + "..."
 
 
 class Solution(models.Model):
     text = models.TextField()
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
+
+

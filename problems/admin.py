@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Problem, Attribute, Solution, Theme
+from .models import Problem, Attribute, Solution, Theme, Source
 
 
 class SolutionInline(admin.StackedInline):
@@ -14,7 +14,7 @@ class ProblemAdmin(admin.ModelAdmin):
             'fields': ['name'],
         }),
         (None, {
-            'fields': ['text'],
+            'fields': ['text', 'source'],
         }),
 
     ]
@@ -24,4 +24,5 @@ class ProblemAdmin(admin.ModelAdmin):
 admin.site.register(Problem, ProblemAdmin)
 admin.site.register(Theme)
 admin.site.register(Attribute)
+admin.site.register(Source)
 

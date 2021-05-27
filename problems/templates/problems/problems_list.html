@@ -1,0 +1,14 @@
+{% if problems_list %}
+    {% for problem in problems_list %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">[{{ problem.id }}] {{ problem.name }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Difficulty: {{ problem.difficulty }}</h6>
+                    <p class="card-text">{{ problem.text }}</p>
+                <a href="problem/{{ problem.id }}" class="card-link">Details</a>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No problems are available.</p>
+{% endif %}

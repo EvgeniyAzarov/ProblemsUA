@@ -1,22 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% if bills_list %}
-    <table>
-            {% for bill in bills_list %}
-                <form id="deleteForm" action="{% url 'bills:delete' bill.id %}" method="post">
-                    {% csrf_token %}
-                </form>
-                <tr>
-                    <td><a href="{{ bill.id }}/">{{ bill.number }} {{ bill.client.name }}
-                        ({{ bill.date }})</a></td>
-                    <td>
-                        <input form="deleteForm" type="submit" value="X">
-                    </td>
-                </tr>
-            {% endfor %}
-    </table>
-{% else %}
-    <p>No problems are available.</p>
-{% endif %}
+    {% include 'problems/problems_list.html' %}
+
 {% endblock %}
