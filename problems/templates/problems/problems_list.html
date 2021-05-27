@@ -11,13 +11,16 @@
                     {% endif %}
                     {{ problem.text }}
                 </p>
-{#                {% if problem.solutions %}#}
-{#                    {% for solution in problem.solutions %}#}
-{#                        <p>#}
-{#                            {{ solution.text }}#}
-{#                        </p>#}
-{#                    {% endfor %}#}
-{#                {% endif %}#}
+                {% if problem.solution %}
+                    <button class="btn btn-light" type="button" data-toggle="collapse"
+                            data-target="#solutionFor{{ problem.id }}" aria-expanded="false"
+                            aria-controls="solutionFor{{ problem.id }}">
+                        Solution
+                    </button>
+                    <div class="collapse" id="solutionFor{{ problem.id }}">
+                        {{ problem.solution }}
+                    </div>
+                {% endif %}
             </div>
         </div>
     {% endfor %}

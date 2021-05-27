@@ -34,16 +34,12 @@ class Problem(models.Model):
     attributes = models.ManyToManyField(Attribute, blank=True)
     parents = models.ManyToManyField('self', blank=True)
     source = models.ForeignKey(Source, null=True, on_delete=models.SET_NULL)
+    solution = models.TextField(null=True, blank=True)
+    author = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         if self.name:
             return self.name
         else:
             return self.text[:80] + "..."
-
-
-class Solution(models.Model):
-    text = models.TextField()
-    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
-
 
