@@ -18,18 +18,19 @@ class Theme(models.Model):
 
 class Source(models.Model):
     name = models.CharField(max_length=500)
-    country = models.CharField(max_length=100, blank=True)
+    country = models.CharField(max_length=100, null=True, blank=True)
+    grade = models.CharField(max_length=100, null=True, blank=True)
     year = models.IntegerField()
 
     def __str__(self):
-        return self.name + f' ({self.country}, {self.year})'
+        return f'{self.name}, grade {self.grade} ({self.country}, {self.year})'
 
 
 class Problem(models.Model):
     name = models.CharField(max_length=255, blank=True,
                             help_text="This field is not necessary")
     text = models.TextField()
-    difficulty = models.FloatField(null=True, blank=True)
+    difficulty = models.FloatField(default=10, null=True, blank=True)
     attributes = models.ManyToManyField(Attribute, blank=True)
     parents = models.ManyToManyField('self', blank=True)
     source = models.ForeignKey(Source, null=True, on_delete=models.SET_NULL)

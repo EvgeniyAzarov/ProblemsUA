@@ -11,12 +11,11 @@ class ProblemAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Meta', {
             'classes': ['collapse'],
-            'fields': ['name'],
+            'fields': ['source', 'difficulty', 'parents', 'name'],
         }),
-        (None, {
-            'fields': ['text', 'source'],
+        ('Problem', {
+            'fields': ['text'],
         }),
-
     ]
     inlines = [SolutionInline]
 
