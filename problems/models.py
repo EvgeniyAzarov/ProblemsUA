@@ -1,4 +1,5 @@
 from django.db import models
+from mptt.models import MPTTModel, TreeForeignKey
 from colorfield.fields import ColorField
 
 
@@ -18,11 +19,15 @@ class Attribute(models.Model):
         return self.name
 
 
-class Theme(models.Model):
+class Theme(MPTTModel):
     name = models.CharField(max_length=255)
-    parent = models.ForeignKey('self',
-                               on_delete=models.SET_NULL,
-                               null=True, blank=True)
+    parent = TreeForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='children')
+
+    class MPPTMeta:
+        order_insertion_by = ['name']
+
+    def __str__(self):
+        return self.name
 
 
 class Source(models.Model):
@@ -40,9 +45,9 @@ class Problem(models.Model):
                             help_text="This field is not necessary")
     text = models.TextField()
     difficulty = models.FloatField(default=10, null=True, blank=True)
-    attributes = models.ManyToManyField(Attribute, null=True, blank=True)
-    themes = models.ManyToManyField(Theme, null=True, blank=True)
-    parents = models.ManyToManyField('self', null=True, blank=True)
+    attributes = models.ManyToManyField(Attribute, blank=True)
+    themes = models.ManyToManyField(Theme, blank=True)
+    parents = models.ManyToManyField('self', blank=True)
     source = models.ForeignKey(Source, null=True, on_delete=models.SET_NULL)
     solution = models.TextField(null=True, blank=True)
     author = models.CharField(max_length=255, null=True, blank=True)
@@ -52,4 +57,3 @@ class Problem(models.Model):
             return self.name
         else:
             return self.text[:80] + "..."
-

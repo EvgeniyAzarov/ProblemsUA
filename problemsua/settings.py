@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'problems.apps.ProblemsConfig',
     'colorfield',
+    'mptt',
+    'django_mptt_admin',
 ]
 
 MIDDLEWARE = [
