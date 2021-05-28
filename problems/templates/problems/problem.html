@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h4>Problem</h4>
+        <p>
+            {{ problem.text }}
+        </p>
+        <h5>Solution</h5>
+        <p>
+            {{ problem.solution }}
+        </p>
+    </div>
+{% endblock %}

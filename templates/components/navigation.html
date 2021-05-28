@@ -22,9 +22,11 @@
                     1
                 </a>
             </li>
-            <li>
-                &nbsp; . . . &nbsp;
-            </li>
+            {% if page_obj.number > 3 %}
+                <li>
+                    &nbsp; . . . &nbsp;
+                </li>
+            {% endif %}
         {% endif %}
 
         {% if page_obj.has_previous %}
@@ -50,9 +52,11 @@
         {% endif %}
 
         {% if page_obj.number|add:1 < page_obj.paginator.num_pages %}
-            <li>
-                &nbsp; . . . &nbsp;
-            </li>
+            {% if page_obj.number|add:2 < page_obj.paginator.num_pages %}
+                <li>
+                    &nbsp; . . . &nbsp;
+                </li>
+            {% endif %}
             <li class="page-item">
                 <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
                     {{ page_obj.paginator.num_pages }}
