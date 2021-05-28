@@ -1,9 +1,18 @@
 from django.db import models
+from colorfield.fields import ColorField
 
 
 class Attribute(models.Model):
     name = models.CharField(max_length=100)
-    color = models.IntegerField(default=0)
+
+    COLOR_CHOICES = [
+        ("#555B6E", "Independence"),
+        ("#89B0AE", "Morning Blue"),
+        ("#BEE3DB", "Powder Blue"),
+        ("#FAF9F9", "Cultured"),
+        ("#FFD6BA", "Apricot")
+    ]
+    color = ColorField(default='#555B6E', choices=COLOR_CHOICES)
 
     def __str__(self):
         return self.name
@@ -31,8 +40,9 @@ class Problem(models.Model):
                             help_text="This field is not necessary")
     text = models.TextField()
     difficulty = models.FloatField(default=10, null=True, blank=True)
-    attributes = models.ManyToManyField(Attribute, blank=True)
-    parents = models.ManyToManyField('self', blank=True)
+    attributes = models.ManyToManyField(Attribute, null=True, blank=True)
+    themes = models.ManyToManyField(Theme, null=True, blank=True)
+    parents = models.ManyToManyField('self', null=True, blank=True)
     source = models.ForeignKey(Source, null=True, on_delete=models.SET_NULL)
     solution = models.TextField(null=True, blank=True)
     author = models.CharField(max_length=255, null=True, blank=True)

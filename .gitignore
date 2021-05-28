@@ -6,3 +6,4 @@ problemsua/.env
 
 **/__pycache__/
 *.py[cod]
+/collected-static/
