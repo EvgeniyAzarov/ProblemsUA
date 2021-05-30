@@ -8,9 +8,18 @@
                     <div class="card">
                         <div class="card-body">
                             [<a href="{% url 'problem' problem.id %}" class="card-link">{{ problem.id }}</a>]
-                            {#                    [{{ problem.id }}]#}
-                            {#                <h6 class="card-subtitle mb-2 text-muted">Difficulty: {{ problem.difficulty }}</h6>#}
-                            <p class="card-text">
+                            <button class="btn" onclick="copyTextToClipboard()">Copy</button>
+                            <script>
+                                function copyTextToClipboard() {
+                                    const elem = document.createElement('textarea');
+                                    elem.value = `{{ problem.text }}`;
+                                    document.body.appendChild(elem);
+                                    elem.select();
+                                    document.execCommand('copy');
+                                    document.body.removeChild(elem);
+                                }
+                            </script>
+                            <p class="card-text" id="problem{{ problem.id }}">
                                 {% if problem.name %}
                                     <b>{{ problem.name }}.</b>
                                 {% endif %}

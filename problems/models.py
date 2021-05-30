@@ -53,7 +53,9 @@ class Problem(models.Model):
     author = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
+        full_text = ""
         if self.name:
-            return self.name
-        else:
-            return self.text[:80] + "..."
+            full_text += f"({self.name}) "
+        full_text += self.text
+        return f"[{self.id}] " + full_text[:80] + "..."
+

@@ -8,7 +8,7 @@ def index(request):
 
 
 def problems_list(request, per_page=10):
-    problems = Problem.objects.all()
+    problems = Problem.objects.all().order_by('id')
     paginator = Paginator(problems, per_page)
 
     page_number = request.GET.get('page')
