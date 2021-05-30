@@ -12,7 +12,6 @@
                             <script>
                                 function copyTextToClipboard() {
                                     const elem = document.createElement('textarea');
-                                    alert(String.raw`{{ problem.text }}`)
                                     elem.value = String.raw`{{ problem.text }}`;
                                     document.body.appendChild(elem);
                                     elem.select();
@@ -27,8 +26,8 @@
                                 {{ problem.text }}
                             </p>
                             {% if problem.solution %}
-                                <button class="btn btn-light" type="button" data-toggle="collapse"
-                                        data-target="#solutionFor{{ problem.id }}" aria-expanded="false"
+                                <button class="btn btn-light" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#solutionFor{{ problem.id }}" aria-expanded="false"
                                         aria-controls="solutionFor{{ problem.id }}">
                                     Solution
                                 </button>
