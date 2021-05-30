@@ -26,3 +26,7 @@ def problem(request, problem_id):
     return render(request,
                   template_name='problems/problem.html',
                   context=context)
+
+
+def compile_paper(request):
+    pass

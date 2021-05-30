@@ -4,10 +4,17 @@ from .models import Problem, Attribute, Theme, Source
 
 
 class ProblemAdmin(admin.ModelAdmin):
+    search_fields = ('text', 'name')
+    list_filter = (
+        ('themes', admin.RelatedFieldListFilter),
+        'attributes',
+    )
+    autocomplete_fields = ('source', )
+    filter_horizontal = ('attributes', 'themes', 'parents')
     fieldsets = [
         ('Meta', {
             'classes': ['collapse'],
-            'fields': ['source', 'difficulty', 'parents', 'name', 'attributes', 'themes'],
+            'fields': ['source', 'difficulty', 'name', 'parents', 'attributes', 'themes'],
         }),
         ('Problem', {
             'fields': ['text', 'solution'],
@@ -19,7 +26,11 @@ class ThemeAdmin(DjangoMpttAdmin):
     pass
 
 
+class SourceAdmin(admin.ModelAdmin):
+    search_fields = ('name', )
+
+
 admin.site.register(Problem, ProblemAdmin)
 admin.site.register(Theme, ThemeAdmin)
 admin.site.register(Attribute)
-admin.site.register(Source)
+admin.site.register(Source, SourceAdmin)
