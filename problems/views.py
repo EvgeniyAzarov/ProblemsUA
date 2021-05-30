@@ -24,7 +24,7 @@ def problem(request, problem_id):
     pr = get_object_or_404(Problem, pk=problem_id)
     context = {'problem': pr}
     return render(request,
-                  template_name='problems/problem.html',
+                  template_name='problems/single_problem.html',
                   context=context)
 
 

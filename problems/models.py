@@ -7,7 +7,7 @@ class Attribute(models.Model):
     name = models.CharField(max_length=100)
 
     COLOR_CHOICES = [
-        ("#555B6E", "Independence"),
+        ("#9CA7CA", "Independence light"),
         ("#89B0AE", "Morning Blue"),
         ("#BEE3DB", "Powder Blue"),
         ("#FAF9F9", "Cultured"),

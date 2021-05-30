@@ -1,4 +1,8 @@
 {% extends 'base/base.html' %}
+{% load static %}
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'problems/css/problem.css' %}" type="text/css">
+{% endblock custom_css %}
 
 {% block content %}
     <div class="container">
@@ -8,7 +12,8 @@
                     <div class="card">
                         <div class="card-body">
                             [<a href="{% url 'problem' problem.id %}" class="card-link">{{ problem.id }}</a>]
-                            <button class="btn" onclick="copyTextToClipboard()">Copy</button>
+
+                            <button class="btn btn-sm" onclick="copyTextToClipboard()">Copy</button>
                             <script>
                                 function copyTextToClipboard() {
                                     const elem = document.createElement('textarea');
@@ -19,12 +24,35 @@
                                     document.body.removeChild(elem);
                                 }
                             </script>
+
+                            <button class="btn-simple btn-sm" data-bs-toggle="collapse"
+                                    data-bs-target="#attributesFor{{ problem.id }}"
+                                    aria-expanded="false" aria-controls="attributesFor{{ problems.id }}">
+                                Show attributes
+                            </button>
+                            <div class="collapse" id="attributesFor{{ problem.id }}">
+                                <ul class="list-group list-group-horizontal">
+                                    {% if problem.attributes.all %}
+                                        {% for attribute in problem.attributes.all %}
+                                            <li class="list-group-item border-0 small">
+                                                <div class="boxed" style="background-color:{{ attribute.color }}">
+                                                    {{ attribute.name }}
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="text small">Problem has no attributes</div>
+                                    {% endif %}
+                                </ul>
+                            </div>
+
                             <p class="card-text" id="problem{{ problem.id }}">
                                 {% if problem.name %}
                                     <b>{{ problem.name }}.</b>
                                 {% endif %}
                                 {{ problem.text }}
                             </p>
+
                             {% if problem.solution %}
                                 <button class="btn btn-light" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#solutionFor{{ problem.id }}" aria-expanded="false"
@@ -38,7 +66,7 @@
                         </div>
                     </div>
                 {% endfor %}
-                {% include 'components/navigation.html' with label=1 %}
+                {% include 'components/pagination.html' with label=1 %}
             {% else %}
                 <p>No problems are available.</p>
             {% endif %}
