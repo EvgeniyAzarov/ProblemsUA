@@ -1,35 +1,45 @@
 {% extends 'base/base.html' %}
 {% load static %}
 {% block custom_css %}
-    <link rel="stylesheet" href="{% static 'problems/css/problem.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'problems/css/problems.css' %}" type="text/css">
 {% endblock custom_css %}
 
 {% block content %}
+    {#    {% include 'problems/filter.html' %}#}
+
     <div class="container">
         <div class="row justify-content-center">
             {% if page_obj %}
                 {% for problem in page_obj %}
                     <div class="card">
                         <div class="card-body">
-                            [<a href="{% url 'problem' problem.id %}" class="card-link">{{ problem.id }}</a>]
+                            <div class="d-flex flex-row">
+                                <div class="mt-2 kostil">
+                                    [<a href="{% url 'problem' problem.id %}" class="card-link">{{ problem.id }}</a>]
+                                </div>
 
-                            <button class="btn btn-sm" onclick="copyTextToClipboard()">Copy</button>
-                            <script>
-                                function copyTextToClipboard() {
-                                    const elem = document.createElement('textarea');
-                                    elem.value = String.raw`{{ problem.text }}`;
-                                    document.body.appendChild(elem);
-                                    elem.select();
-                                    document.execCommand('copy');
-                                    document.body.removeChild(elem);
-                                }
-                            </script>
+                                <button class="btn" onclick="copyTextToClipboard()"
+                                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="Copy">
+                                    <i class="far fa-clipboard"></i>
+                                </button>
+                                <script>
+                                    function copyTextToClipboard() {
+                                        const elem = document.createElement('textarea');
+                                        elem.value = String.raw`{{ problem.text }}`;
+                                        document.body.appendChild(elem);
+                                        elem.select();
+                                        document.execCommand('copy');
+                                        document.body.removeChild(elem);
+                                    }
+                                </script>
 
-                            <button class="btn-simple btn-sm" data-bs-toggle="collapse"
-                                    data-bs-target="#attributesFor{{ problem.id }}"
-                                    aria-expanded="false" aria-controls="attributesFor{{ problems.id }}">
-                                Show attributes
-                            </button>
+                                <button class="btn-simple btn-sm" data-bs-toggle="collapse"
+                                        data-bs-target="#attributesFor{{ problem.id }}"
+                                        aria-expanded="false" aria-controls="attributesFor{{ problems.id }}">
+                                    Show attributes
+                                </button>
+                            </div>
+
                             <div class="collapse" id="attributesFor{{ problem.id }}">
                                 <ul class="list-group list-group-horizontal">
                                     {% if problem.attributes.all %}
@@ -41,7 +51,7 @@
                                             </li>
                                         {% endfor %}
                                     {% else %}
-                                        <div class="text small">Problem has no attributes</div>
+                                        <div class="text small" style="color:grey">Problem has no attributes</div>
                                     {% endif %}
                                 </ul>
                             </div>
@@ -54,11 +64,12 @@
                             </p>
 
                             {% if problem.solution %}
-                                <button class="btn btn-light" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#solutionFor{{ problem.id }}" aria-expanded="false"
-                                        aria-controls="solutionFor{{ problem.id }}">
+                                <h7 data-bs-toggle="collapse" data-bs-target="#solutionFor{{ problem.id }}"
+                                    aria-expanded="true" aria-controls="solutionFor{{ problem.id }}"
+                                    class="collapsed">
+                                    <i class="fa fa-fw fa-chevron-down chevron-anim"></i>
                                     Solution
-                                </button>
+                                </h7>
                                 <div class="collapse" id="solutionFor{{ problem.id }}">
                                     {{ problem.solution }}
                                 </div>

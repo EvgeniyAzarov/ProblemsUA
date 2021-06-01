@@ -7,7 +7,7 @@
 }
 
 .collapsing {
-    transition: none !important;
+    transition: 0.1s !important;
 }
 
 .btn-simple {
@@ -32,4 +32,15 @@
 
 .btn-simple:hover {
     color: #212529;
+}
+
+[data-bs-toggle="collapse"] {
+	cursor: pointer;
+}
+
+.chevron-anim {
+  transition: .1s transform ease-in-out;
+}
+.collapsed .chevron-anim {
+  transform: rotate(-90deg);
 }

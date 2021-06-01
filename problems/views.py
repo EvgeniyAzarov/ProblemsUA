@@ -29,4 +29,4 @@ def problem(request, problem_id):
 
 
 def compile_paper(request):
-    pass
+    return render(request, template_name='problems/compile_paper.html')
