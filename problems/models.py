@@ -33,11 +33,13 @@ class Theme(MPTTModel):
 class Source(models.Model):
     name = models.CharField(max_length=500)
     country = models.CharField(max_length=100, null=True, blank=True)
-    grade = models.CharField(max_length=100, null=True, blank=True)
-    year = models.IntegerField()
 
     def __str__(self):
-        return f'{self.name}, grade {self.grade} ({self.country}, {self.year})'
+        out = f'{self.name}'
+        if self.country:
+            out += f' {self.country}'
+
+        return out
 
 
 class Problem(models.Model):
@@ -49,6 +51,8 @@ class Problem(models.Model):
     themes = models.ManyToManyField(Theme, blank=True)
     parents = models.ManyToManyField('self', blank=True)
     source = models.ForeignKey(Source, null=True, on_delete=models.SET_NULL)
+    grade = models.CharField(max_length=100, null=True, blank=True)
+    year = models.IntegerField(null=True, blank=True)
     solution = models.TextField(null=True, blank=True)
     author = models.CharField(max_length=255, null=True, blank=True)
 
