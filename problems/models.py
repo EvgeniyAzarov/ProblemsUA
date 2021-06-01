@@ -37,7 +37,7 @@ class Source(models.Model):
     def __str__(self):
         out = f'{self.name}'
         if self.country:
-            out += f' {self.country}'
+            out += f' ({self.country})'
 
         return out
 

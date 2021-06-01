@@ -5,82 +5,87 @@
 {% endblock custom_css %}
 
 {% block content %}
-    {#    {% include 'problems/filter.html' %}#}
 
-    <div class="container">
+    <div class="container-fluid">
         <div class="row justify-content-center">
-            {% if page_obj %}
-                {% for problem in page_obj %}
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex flex-row">
-                                <div class="mt-2 kostil">
-                                    [<a href="{% url 'problem' problem.id %}" class="card-link">{{ problem.id }}</a>]
+            <div class="col-3">
+                {% include 'problems/filter.html' %}
+            </div>
+
+            <div class="col">
+                {% if page_obj %}
+                    {% for problem in page_obj %}
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-row">
+                                    <div class="mt-2 kostil">
+                                        [<a href="{% url 'problem' problem.id %}" class="card-link">{{ problem.id }}</a>]
+                                    </div>
+
+                                    <button class="btn" onclick="copyTextToClipboard()"
+                                            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Copy">
+                                        <i class="far fa-clipboard"></i>
+                                    </button>
+                                    <script>
+                                        function copyTextToClipboard() {
+                                            const elem = document.createElement('textarea');
+                                            elem.value = String.raw`{{ problem.text }}`;
+                                            document.body.appendChild(elem);
+                                            elem.select();
+                                            document.execCommand('copy');
+                                            document.body.removeChild(elem);
+                                        }
+                                    </script>
+
+                                    <button class="btn-simple btn-sm" data-bs-toggle="collapse"
+                                            data-bs-target="#attributesFor{{ problem.id }}"
+                                            aria-expanded="false" aria-controls="attributesFor{{ problems.id }}">
+                                        Show attributes
+                                    </button>
                                 </div>
 
-                                <button class="btn" onclick="copyTextToClipboard()"
-                                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="Copy">
-                                    <i class="far fa-clipboard"></i>
-                                </button>
-                                <script>
-                                    function copyTextToClipboard() {
-                                        const elem = document.createElement('textarea');
-                                        elem.value = String.raw`{{ problem.text }}`;
-                                        document.body.appendChild(elem);
-                                        elem.select();
-                                        document.execCommand('copy');
-                                        document.body.removeChild(elem);
-                                    }
-                                </script>
+                                <div class="collapse" id="attributesFor{{ problem.id }}">
+                                    <ul class="list-group list-group-horizontal">
+                                        {% if problem.attributes.all %}
+                                            {% for attribute in problem.attributes.all %}
+                                                <li class="list-group-item border-0 small">
+                                                    <div class="boxed" style="background-color:{{ attribute.color }}">
+                                                        {{ attribute.name }}
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="text small" style="color:grey">Problem has no attributes</div>
+                                        {% endif %}
+                                    </ul>
+                                </div>
 
-                                <button class="btn-simple btn-sm" data-bs-toggle="collapse"
-                                        data-bs-target="#attributesFor{{ problem.id }}"
-                                        aria-expanded="false" aria-controls="attributesFor{{ problems.id }}">
-                                    Show attributes
-                                </button>
-                            </div>
-
-                            <div class="collapse" id="attributesFor{{ problem.id }}">
-                                <ul class="list-group list-group-horizontal">
-                                    {% if problem.attributes.all %}
-                                        {% for attribute in problem.attributes.all %}
-                                            <li class="list-group-item border-0 small">
-                                                <div class="boxed" style="background-color:{{ attribute.color }}">
-                                                    {{ attribute.name }}
-                                                </div>
-                                            </li>
-                                        {% endfor %}
-                                    {% else %}
-                                        <div class="text small" style="color:grey">Problem has no attributes</div>
+                                <p class="card-text" id="problem{{ problem.id }}">
+                                    {% if problem.name %}
+                                        <b>{{ problem.name }}.</b>
                                     {% endif %}
-                                </ul>
-                            </div>
+                                    {{ problem.text }}
+                                </p>
 
-                            <p class="card-text" id="problem{{ problem.id }}">
-                                {% if problem.name %}
-                                    <b>{{ problem.name }}.</b>
+                                {% if problem.solution %}
+                                    <h7 data-bs-toggle="collapse" data-bs-target="#solutionFor{{ problem.id }}"
+                                        aria-expanded="true" aria-controls="solutionFor{{ problem.id }}"
+                                        class="collapsed">
+                                        <i class="fa fa-fw fa-chevron-down chevron-anim"></i>
+                                        Solution
+                                    </h7>
+                                    <div class="collapse" id="solutionFor{{ problem.id }}">
+                                        {{ problem.solution }}
+                                    </div>
                                 {% endif %}
-                                {{ problem.text }}
-                            </p>
-
-                            {% if problem.solution %}
-                                <h7 data-bs-toggle="collapse" data-bs-target="#solutionFor{{ problem.id }}"
-                                    aria-expanded="true" aria-controls="solutionFor{{ problem.id }}"
-                                    class="collapsed">
-                                    <i class="fa fa-fw fa-chevron-down chevron-anim"></i>
-                                    Solution
-                                </h7>
-                                <div class="collapse" id="solutionFor{{ problem.id }}">
-                                    {{ problem.solution }}
-                                </div>
-                            {% endif %}
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
-                {% include 'components/pagination.html' with label=1 %}
-            {% else %}
-                <p>No problems are available.</p>
-            {% endif %}
+                    {% endfor %}
+                    {% include 'components/pagination.html' with label=1 %}
+                {% else %}
+                    <p>No problems are available.</p>
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -4,10 +4,10 @@ from .models import Problem, Attribute, Theme, Source
 
 
 class ProblemAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'source',)
     search_fields = ('text', 'name')
     list_filter = (
         ('themes', admin.RelatedFieldListFilter),
-        'attributes',
     )
     autocomplete_fields = ('source', )
     filter_horizontal = ('attributes', 'themes', 'parents')

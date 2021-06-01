@@ -1,0 +1,53 @@
+<form action="{% url 'problems_list' %}" method="get">
+    <div class="card">
+        <div class="card-title">
+            <h4 class="m-2">
+                Filter
+                <i class="fa fa-filter"></i>
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <h5>
+                    <i class="fas fa-caret-down"></i>
+                    Source
+                </h5>
+                <select class="form-select form-select-sm" name="source_id">
+                    <option>Any source</option>
+                    {% for source in filter.sources %}
+                        <option
+                                value="{{ source.id }}"
+                                {% if source.id == filter.selected_source_id %}selected="selected"{% endif %}>
+                            {{ source }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <div class="form-group col-sm-4 col-md-3">
+
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+
+                </div>
+                <div class="form-group col-sm-8 col-md-6">
+                    <div>
+                        {% for choice in filter.form.groups %}
+                            <label class="checkbox-inline">
+                                {{ choice.tag }} {{ choice.choice_label }}
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="d-flex d-flex-row mt-4">
+                    <a class="btn btn-outline-secondary me-1" href="{% url 'problems_list' %}">Reset</a>
+                    <button class="btn btn-outline-success ms-1" type="submit">
+                        Apply
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
