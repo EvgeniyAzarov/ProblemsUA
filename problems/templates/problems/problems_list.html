@@ -18,8 +18,13 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex flex-row">
-                                    <div class="mt-2 kostil">
-                                        [<a href="{% url 'problem' problem.id %}" class="card-link">{{ problem.id }}</a>]
+                                    <div class="mt-2 me-4">
+                                        <input class="form-check-input" type="checkbox" id="checkboxNoLabel"
+                                               aria-label="add to paper">
+                                    </div>
+
+                                    <div class="mt-2 me-2">
+                                        Problem [<a href="{% url 'problem' problem.id %}" class="card-link">{{ problem.id }}</a>]
                                     </div>
 
                                     <button class="btn" onclick="copyTextToClipboard()"
@@ -69,7 +74,7 @@
 
                                 {% if problem.solution %}
                                     <h7 data-bs-toggle="collapse" data-bs-target="#solutionFor{{ problem.id }}"
-                                        aria-expanded="true" aria-controls="solutionFor{{ problem.id }}"
+                                        aria-expanded="false" aria-controls="solutionFor{{ problem.id }}"
                                         class="collapsed">
                                         <i class="fa fa-fw fa-chevron-down chevron-anim"></i>
                                         Solution
@@ -83,7 +88,7 @@
                     {% endfor %}
                     {% include 'components/pagination.html' with label=1 %}
                 {% else %}
-                    <p>No problems are available.</p>
+                    <p>No problems found.</p>
                 {% endif %}
             </div>
         </div>

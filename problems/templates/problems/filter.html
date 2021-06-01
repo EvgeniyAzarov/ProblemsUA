@@ -8,20 +8,24 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <h5>
-                    <i class="fas fa-caret-down"></i>
+                <h6 data-bs-toggle="collapse" data-bs-target="#sourcesFilter"
+                    aria-expanded="true" aria-controls="sourcesFilter">
+                    <i class="fas fa-caret-down chevron-anim"></i>
                     Source
-                </h5>
-                <select class="form-select form-select-sm" name="source_id">
-                    <option>Any source</option>
-                    {% for source in filter.sources %}
-                        <option
-                                value="{{ source.id }}"
-                                {% if source.id == filter.selected_source_id %}selected="selected"{% endif %}>
-                            {{ source }}
-                        </option>
-                    {% endfor %}
-                </select>
+                </h6>
+                <div class="collapse show" id="sourcesFilter">
+                    <select class="form-select form-select-sm" name="source_id">
+                        <option value="0" selected>Any source</option>
+                        {% for source in filter.sources %}
+                            <option
+                                    value="{{ source.id }}"
+                                    {% if source.id == filter.selected_source_id %}selected="selected"{% endif %}>
+                                {{ source }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                </div>
 
                 <div class="form-group col-sm-4 col-md-3">
 

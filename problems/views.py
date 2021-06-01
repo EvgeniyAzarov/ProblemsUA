@@ -21,7 +21,7 @@ def problems_list(request, per_page=10):
             .filter(Q(text__icontains=search_text) | Q(name__contains=search_text))
 
     source_id = request.GET.get('source_id')
-    if source_id:
+    if source_id and source_id != "0":
         source_id = int(source_id)
         filter_context['selected_source_id'] = source_id
         problems = problems.filter(source__id=source_id)
@@ -57,4 +57,4 @@ def compile_paper(request):
 
 
 def test_page(request):
-    return render(request, template_name='problems/test.html')
+     pass
