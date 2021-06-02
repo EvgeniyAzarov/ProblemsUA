@@ -35,12 +35,33 @@
 }
 
 [data-bs-toggle="collapse"] {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .chevron-anim {
-  transition: .1s transform ease-in-out;
+    transition: .1s transform ease-in-out;
 }
+
 .collapsed .chevron-anim {
-  transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+
+.boxed-checkbox {
+    /*display: inline-block;*/
+    cursor: pointer;
+    opacity: 0.3;
+    margin-inline: -4px;
+    padding: 3px;
+    padding-inline: 10px;
+    border-radius: 8px;
+}
+
+.checkbox-style {
+    display: block;
+    position: absolute;
+    visibility: hidden;
+}
+
+.checkbox-style:checked + label {
+    opacity: 1;
 }

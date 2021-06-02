@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{% static 'problems/css/problems.css' %}" type="text/css">
 {% endblock custom_css %}
 
+
 {% block content %}
 
     <div class="container-fluid">
@@ -18,13 +19,16 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex flex-row">
-                                    <div class="mt-2 me-4">
-                                        <input class="form-check-input" type="checkbox" id="checkboxNoLabel"
-                                               aria-label="add to paper">
+                                    <div class="mt-2 me-1 user-select-none">
+                                        <label>
+                                            <input class="form-check-input" type="checkbox" id="checkboxNoLabel"
+                                                   aria-label="add to paper">
+                                            Problem
+                                        </label>
                                     </div>
 
                                     <div class="mt-2 me-2">
-                                        Problem [<a href="{% url 'problem' problem.id %}" class="card-link">{{ problem.id }}</a>]
+                                        [<a href="{% url 'problem' problem.id %}" class="card-link">{{ problem.id }}</a>]
                                     </div>
 
                                     <button class="btn" onclick="copyTextToClipboard()"
@@ -54,7 +58,8 @@
                                         {% if problem.attributes.all %}
                                             {% for attribute in problem.attributes.all %}
                                                 <li class="list-group-item border-0 small">
-                                                    <div class="boxed" style="background-color:{{ attribute.color }}">
+                                                    <div class="boxed no-select"
+                                                         style="background-color:{{ attribute.color }}">
                                                         {{ attribute.name }}
                                                     </div>
                                                 </li>
