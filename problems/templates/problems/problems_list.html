@@ -4,8 +4,14 @@
     <link rel="stylesheet" href="{% static 'problems/css/problems.css' %}" type="text/css">
 {% endblock custom_css %}
 
+{% block scripts %}
+    <script src="{% static 'problems/js/problems_list.js' %}"></script>
+{% endblock scripts %}
 
 {% block content %}
+    <ul class="cart">
+
+    </ul>
 
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -21,8 +27,9 @@
                                 <div class="d-flex flex-row">
                                     <div class="mt-2 me-1 user-select-none">
                                         <label>
-                                            <input class="form-check-input" type="checkbox" id="checkboxNoLabel"
-                                                   aria-label="add to paper" value="{{ problem.id }}">
+                                            <input class="form-check-input" type="checkbox" id="problemCheckbox"
+                                                   aria-label="add to paper" value="{{ problem.id }}"
+                                                   onchange="handleProblemCheckbox(this)">
                                             Problem
                                         </label>
                                     </div>
@@ -35,16 +42,6 @@
                                             data-bs-toggle="tooltip" data-bs-placement="bottom" title="Copy">
                                         <i class="far fa-clipboard"></i>
                                     </button>
-                                    <script>
-                                        function copyTextToClipboard() {
-                                            const elem = document.createElement('textarea');
-                                            elem.value = String.raw`{{ problem.text }}`;
-                                            document.body.appendChild(elem);
-                                            elem.select();
-                                            document.execCommand('copy');
-                                            document.body.removeChild(elem);
-                                        }
-                                    </script>
 
                                     <button class="btn-simple btn-sm" data-bs-toggle="collapse"
                                             data-bs-target="#attributesFor{{ problem.id }}"

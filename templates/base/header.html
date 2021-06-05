@@ -31,6 +31,8 @@
                 {#                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>#}
                 {#                </li>#}
             </ul>
+            {% block navbar %}
+            {% endblock navbar %}
             <form class="d-flex" action="{% url 'problems_list' %}" method="get">
                 <div class="input-group">
                     <input name="search_text" class="form-control" type="search"
