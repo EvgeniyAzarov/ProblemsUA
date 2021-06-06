@@ -1,6 +1,6 @@
-function copyTextToClipboard() {
+function copyTextToClipboard(text) {
     const elem = document.createElement('textarea');
-    elem.value = String.raw`{{ problem.text }}`;
+    elem.value = text;
     document.body.appendChild(elem);
     elem.select();
     document.execCommand('copy');

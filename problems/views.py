@@ -19,7 +19,6 @@ def problems_list(request, per_page=10):
 
     search_text = request.GET.get('search_text')
     if search_text:
-        search_text.strip()
         context['search_text'] = search_text
         query &= (Q(text__icontains=search_text) | Q(name__contains=search_text))
 

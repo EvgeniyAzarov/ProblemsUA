@@ -29,7 +29,7 @@
                             </button>
 
                             <a class="btn btn-outline-success ms-1"
-                                     href="{% url 'compile paper' %}">
+                               href="{% url 'compile paper' %}">
                                 Compile paper
                                 <i class="fas fa-arrow-right"></i>
                             </a>
@@ -57,7 +57,7 @@
                                         [<a href="{% url 'problem' problem.id %}" class="card-link">{{ problem.id }}</a>]
                                     </div>
 
-                                    <button class="btn" onclick="copyTextToClipboard()"
+                                    <button class="btn" onclick="copyTextToClipboard(String.raw`{{ problem.text }}`)"
                                             data-bs-toggle="tooltip" data-bs-placement="bottom" title="Copy">
                                         <i class="far fa-clipboard"></i>
                                     </button>
