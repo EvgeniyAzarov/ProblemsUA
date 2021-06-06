@@ -1,0 +1,57 @@
+{% if problems %}
+    <input form="selectedForm" class="form-control form-control-lg mb-3 mt-3"
+           placeholder="Paper title" name="paperTitle">
+
+    <p class="mb-2 user-select-none" style="color: grey">
+        <i class="fas fa-arrows-alt"></i>
+        Drag and drop to reorder problems
+    </p>
+
+    <div id="selectedProblemsList">
+        {% for problem in problems %}
+            <div class="card">
+                <div class="card-body">
+                    <div class="mt-2 me-2">
+                        <div class="d-flex flex-row user-select-none">
+                            <i class="fas fa-arrows-alt me-2 mt-1"></i>
+                            Problem [<a href="{% url 'problem' problem.id %}"
+                                        class="card-link">{{ problem.id }}</a>]
+                        </div>
+                    </div>
+
+                    <p class="card-text" id="problem{{ problem.id }}">
+                        {% if problem.name %}
+                            <b>{{ problem.name }}.</b>
+                        {% endif %}
+                        {{ problem.text }}
+                    </p>
+
+                    {% if problem.solution %}
+                        <h7 data-bs-toggle="collapse" data-bs-target="#solutionFor{{ problem.id }}"
+                            aria-expanded="false" aria-controls="solutionFor{{ problem.id }}"
+                            class="collapsed user-select-none">
+                            <i class="fas fa-chevron-down chevron-anim"></i>
+                            Solution
+                        </h7>
+                        <div class="collapse" id="solutionFor{{ problem.id }}">
+                            {{ problem.solution }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <form action="{% url 'get compiled paper' %}" method="post"
+          onsubmit="fillSelectedProblemsForm()" id="selectedForm">
+        {% csrf_token %}
+        <input style="display: none" id="selectedProblems" value=""
+               name="selectedProblems">
+        <button class="btn btn-outline-success mt-4 mb-4" type="submit"
+                name="startEditButton">
+            Get TeX
+        </button>
+    </form>
+{% else %}
+    <p>No problems selected.</p>
+    <div id="selectedProblemsList" style="display: none"></div>
+{% endif %}

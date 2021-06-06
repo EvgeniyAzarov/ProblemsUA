@@ -1,4 +1,9 @@
 venv/
-.env
+TA/
+problemsua/.env
 *.sqlite3
 .idea
+
+**/__pycache__/
+*.py[cod]
+/collected-static/

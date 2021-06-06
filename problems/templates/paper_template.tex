@@ -1,0 +1,51 @@
+\documentclass[12pt]{article}
+\pagestyle{empty}
+\usepackage{epigraph}
+
+\usepackage{enumitem}
+\setlist{nolistsep, itemsep=0.2cm,parsep=0pt}
+
+\usepackage{amsfonts, amsthm, epsfig, amsmath, amssymb, color}
+\usepackage{array}
+\usepackage{icomma}
+\setlength{\jot}{1ex}
+\usepackage{gensymb}
+
+\usepackage{cmap}
+\usepackage{mathtext}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian,ukrainian]{babel}
+
+\usepackage[left=15mm, top=10mm, right=20mm, bottom=10mm, nohead, nofoot]{geometry} 
+
+\theoremstyle{definition}
+\newtheorem{problem}{}
+
+\newcommand{\solution}{\noindent\textit{Решение. }}
+\newcommand{\directive}{\noindent\textit{Указание. }}
+
+\newcommand{\divisible}{\ \vdots\ }
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+
+
+\begin{document}	
+\begin{center}
+	\Large\textbf{ {{ paper.title }} }
+\end{center}
+
+{% for problem in paper.problems %}
+\begin{problem}
+{% spaceless %}
+{% if problem.name %}
+\textbf{
+    {{ problem.name }}
+}.
+{% endif %}
+{% endspaceless %}
+{{ problem.text }}
+\end{problem}
+{% endfor %}
+
+\end{document}

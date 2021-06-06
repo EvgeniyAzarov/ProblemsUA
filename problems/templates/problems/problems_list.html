@@ -1,0 +1,117 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'problems/css/problems.css' %}" type="text/css">
+{% endblock custom_css %}
+
+{% block scripts %}
+    <script defer src="{% static 'problems/js/problems_list.js' %}"></script>
+{% endblock scripts %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-3">
+                {% include 'problems/filter.html' %}
+                <div class="card mt-2" id="cartCard">
+                    <div class="card-title">
+                        <h6 class="m-2">
+                            Selected problems
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <ul id="cart" class="list-group cart">
+
+                        </ul>
+                        <div class="d-flex d-flex-row mt-2">
+                            <button class="btn btn-outline-secondary me-1" onclick="clearCart()">
+                                Clear
+                            </button>
+
+                            <a class="btn btn-outline-success ms-1"
+                               href="{% url 'compile paper' %}">
+                                Compile paper
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                {% if page_obj %}
+                    {% for problem in page_obj %}
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-row">
+                                    <div class="mt-2 me-1 user-select-none">
+                                        <label>
+                                            <input class="form-check-input problemCheckbox" type="checkbox"
+                                                   aria-label="add to paper" value="{{ problem.id }}"
+                                                   onchange="handleProblemCheckbox(this)">
+                                            Problem
+                                        </label>
+                                    </div>
+
+                                    <div class="mt-2 me-2">
+                                        [<a href="{% url 'problem' problem.id %}" class="card-link">{{ problem.id }}</a>]
+                                    </div>
+
+                                    <button class="btn" onclick="copyTextToClipboard(String.raw`{{ problem.text }}`)"
+                                            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Copy">
+                                        <i class="far fa-clipboard"></i>
+                                    </button>
+
+                                    <button class="btn-simple btn-sm" data-bs-toggle="collapse"
+                                            data-bs-target="#attributesFor{{ problem.id }}"
+                                            aria-expanded="false" aria-controls="attributesFor{{ problems.id }}">
+                                        Show attributes
+                                    </button>
+                                </div>
+
+                                <div class="collapse" id="attributesFor{{ problem.id }}">
+                                    <ul class="list-group list-group-horizontal">
+                                        {% if problem.attributes.all %}
+                                            {% for attribute in problem.attributes.all %}
+                                                <li class="list-group-item border-0 small">
+                                                    <div class="boxed no-select"
+                                                         style="background-color:{{ attribute.color }}">
+                                                        {{ attribute.name }}
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="text small" style="color:grey">Problem has no attributes</div>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+
+                                <p class="card-text" id="problem{{ problem.id }}">
+                                    {% if problem.name %}
+                                        <b>{{ problem.name }}.</b>
+                                    {% endif %}
+                                    {{ problem.text }}
+                                </p>
+
+                                {% if problem.solution %}
+                                    <h7 data-bs-toggle="collapse" data-bs-target="#solutionFor{{ problem.id }}"
+                                        aria-expanded="false" aria-controls="solutionFor{{ problem.id }}"
+                                        class="collapsed user-select-non">
+                                        <i class="fas fa-chevron-down chevron-anim"></i>
+                                        Solution
+                                    </h7>
+                                    <div class="collapse" id="solutionFor{{ problem.id }}">
+                                        {{ problem.solution }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% include 'components/pagination.html' with label=1 %}
+                {% else %}
+                    <p>No problems found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

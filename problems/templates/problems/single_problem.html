@@ -1,0 +1,30 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'problems/css/problems.css' %}" type="text/css">
+{% endblock custom_css %}
+
+{% block content %}
+    <div class="container">
+            <h4 style="display: inline" >Problem </h4>
+            [{{ problem.id }}]
+        {% if problem.attributes.all %}
+            <ul class="list-group list-group-horizontal">
+                {% for attribute in problem.attributes.all %}
+                    <li class="list-group-item border-0 small">
+                        <div class="boxed" style="background-color:{{ attribute.color }}">
+                            {{ attribute.name }}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <p>
+            {{ problem.text }}
+        </p>
+        <h5>Solution</h5>
+        <p>
+            {{ problem.solution }}
+        </p>
+    </div>
+{% endblock %}

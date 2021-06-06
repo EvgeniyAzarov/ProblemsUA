@@ -1,0 +1,60 @@
+<form action="{% url 'problems_list' %}" method="get">
+    <div class="card">
+        <div class="card-title">
+            <h4 class="m-2">
+                Filter
+                <i class="fa fa-filter"></i>
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <h6 data-bs-toggle="collapse" data-bs-target="#sourcesFilter"
+                    aria-expanded="true" aria-controls="sourcesFilter">
+                    <i class="fas fa-caret-down chevron-anim"></i>
+                    Source
+                </h6>
+                <div class="collapse show mb-4" id="sourcesFilter">
+                    <select class="form-select form-select-sm" name="source_id">
+                        <option value="0" selected>Any source</option>
+                        {% for source in filter.sources %}
+                            <option
+                                    value="{{ source.id }}"
+                                    {% if source.id == filter.selected_source_id %}selected="selected"{% endif %}>
+                                {{ source }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <h6 data-bs-toggle="collapse" data-bs-target="#attributesFilter"
+                    aria-expanded="true" aria-controls="attributesFilter">
+                    <i class="fas fa-caret-down chevron-anim"></i>
+                    Attributes
+                </h6>
+                <div class="collapse show mb-4" id="attributesFilter">
+                    {% for attribute in filter.attributes %}
+                        <div class="mt-2 mb-2 ms-2">
+                            <input class="checkbox-style" id="check{{ attribute.name }}" type="checkbox"
+                                   value="{{ attribute.id }}" name="selected_attributes"
+                                    {% if attribute.id in filter.selected_attributes %}
+                                   checked
+                                    {% endif %}>
+                            <label class="boxed-checkbox form-check-label boxed user-select-none"
+                                   for="check{{ attribute.name }}" style="background-color: {{ attribute.color }}">
+                                {{ attribute.name }}
+                            </label>
+                        </div>
+
+                    {% endfor %}
+                </div>
+
+                <div class="d-flex d-flex-row">
+                    <a class="btn btn-outline-secondary me-1" href="{% url 'problems_list' %}">Reset</a>
+                    <button class="btn btn-outline-success ms-1" type="submit">
+                        Apply
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
