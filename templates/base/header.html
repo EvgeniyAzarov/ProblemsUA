@@ -7,12 +7,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'compile paper' %}">Compile paper</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'test page' %}">Test page</a>
-                </li>
+                {#                <li class="nav-item">#}
+                {#                    <a class="nav-link active" aria-current="page" href="{% url 'compile paper' %}">Compile paper</a>#}
+                {#                </li>#}
+                {#                <li class="nav-item">#}
+                {#                    <a class="nav-link" href="{% url 'test page' %}">Test page</a>#}
+                {#                </li>#}
                 {#                <li class="nav-item dropdown">#}
                 {#                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"#}
                 {#                       data-bs-toggle="dropdown" aria-expanded="false">#}
@@ -31,8 +31,6 @@
                 {#                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>#}
                 {#                </li>#}
             </ul>
-            {% block navbar %}
-            {% endblock navbar %}
             <form class="d-flex" action="{% url 'problems_list' %}" method="get">
                 <div class="input-group">
                     <input name="search_text" class="form-control" type="search"

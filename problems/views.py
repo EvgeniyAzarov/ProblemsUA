@@ -1,6 +1,10 @@
+import json
+from datetime import date
+
+from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import Q, When, Case
 from .models import Problem, Source, Attribute
 
 
@@ -60,9 +64,42 @@ def problem(request, problem_id):
                   context=context)
 
 
-def compile_paper(request):
-    return render(request, template_name='problems/compile_paper.html')
+def get_problems_by_ids(pk_list):
+    preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(pk_list)])
+    problems = Problem.objects.filter(id__in=pk_list).order_by(preserved)
+    return problems
 
 
-def test_page(request):
-    pass
+def compile_paper_page(request):
+    if request.method == 'POST':
+        selected_problems = json.loads(request.body)['selectedProblems']
+        pk_list = list(map(int, selected_problems.split()))
+        problems = get_problems_by_ids(pk_list)
+        context = {'problems': problems}
+        return render(request, template_name='problems/compile_problems_list.html', context=context)
+    else:
+        return render(request, template_name='problems/compile_paper.html')
+
+
+def get_compiled_paper(request):
+    if request.method == 'POST':
+        selected_problems = request.POST.get('selectedProblems')
+        paper_title = request.POST.get('paperTitle')
+
+        pk_list = list(map(int, selected_problems.split()))
+        problems = get_problems_by_ids(pk_list)
+        context = {
+            'paper':
+                {
+                    'title': paper_title,
+                    'problems': problems,
+                }
+        }
+
+        response = render(request, template_name='paper_template.tex', context=context)
+        response['Content-Disposition'] = \
+            f"attachment; " \
+            f"filename=problems_paper_{date.today().strftime('%d_%m_%y')}.tex"
+        return response
+    else:
+        raise Http404()

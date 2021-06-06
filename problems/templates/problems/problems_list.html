@@ -5,18 +5,37 @@
 {% endblock custom_css %}
 
 {% block scripts %}
-    <script src="{% static 'problems/js/problems_list.js' %}"></script>
+    <script defer src="{% static 'problems/js/problems_list.js' %}"></script>
 {% endblock scripts %}
 
 {% block content %}
-    <ul class="cart">
-
-    </ul>
-
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-3">
                 {% include 'problems/filter.html' %}
+                <div class="card mt-2" id="cartCard">
+                    <div class="card-title">
+                        <h6 class="m-2">
+                            Selected problems
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <ul id="cart" class="list-group cart">
+
+                        </ul>
+                        <div class="d-flex d-flex-row mt-2">
+                            <button class="btn btn-outline-secondary me-1" onclick="clearCart()">
+                                Clear
+                            </button>
+
+                            <a class="btn btn-outline-success ms-1"
+                                     href="{% url 'compile paper' %}">
+                                Compile paper
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="col">
@@ -27,7 +46,7 @@
                                 <div class="d-flex flex-row">
                                     <div class="mt-2 me-1 user-select-none">
                                         <label>
-                                            <input class="form-check-input" type="checkbox" id="problemCheckbox"
+                                            <input class="form-check-input problemCheckbox" type="checkbox"
                                                    aria-label="add to paper" value="{{ problem.id }}"
                                                    onchange="handleProblemCheckbox(this)">
                                             Problem
@@ -77,8 +96,8 @@
                                 {% if problem.solution %}
                                     <h7 data-bs-toggle="collapse" data-bs-target="#solutionFor{{ problem.id }}"
                                         aria-expanded="false" aria-controls="solutionFor{{ problem.id }}"
-                                        class="collapsed">
-                                        <i class="fa fa-fw fa-chevron-down chevron-anim"></i>
+                                        class="collapsed user-select-non">
+                                        <i class="fas fa-chevron-down chevron-anim"></i>
                                         Solution
                                     </h7>
                                     <div class="collapse" id="solutionFor{{ problem.id }}">

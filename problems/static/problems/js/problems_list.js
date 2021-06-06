@@ -26,7 +26,7 @@ function handleProblemCheckbox(checkbox) {
 }
 
 function synchronizeCheckboxes() {
-    const checkboxes = document.querySelectorAll('input[id=problemCheckbox]');
+    const checkboxes = document.querySelectorAll('.problemCheckbox');
     const storage = JSON.parse(localStorage.getItem(cartName)) || [];
     checkboxes.forEach((checkbox) => {
         // check input if name in storage
@@ -35,19 +35,34 @@ function synchronizeCheckboxes() {
 }
 
 function setCart() {
-    const cart = document.querySelector('.cart');
+    const cart = document.getElementById('cart');
+    const cartCard = document.getElementById('cartCard')
     cart.innerHTML = "";
 
     const storage = JSON.parse(localStorage.getItem(cartName)) || [];
-    storage.forEach((item) => {
-        const li = document.createElement('li');
-        const name = document.createElement('p');
-        name.innerText = item;
+    if (storage.length > 0) {
+        cartCard.style.display = 'block';
+        storage.forEach((item) => {
+            const li = document.createElement('li');
+            li.className = 'list-group-item';
+            const problemId = item;
+            li.innerHTML = `
+                <div class="mt-2 me-2">
+                    [<a href="/problem/${problemId}" class="card-link">${problemId}</a>]
+                </div> 
+            `;
+            cart.append(li);
+        })
+    } else {
+        cartCard.style.display = 'none';
+    }
+}
 
-        cart.append(li);
-        li.append(name);
-    })
-
+function clearCart() {
+    const cart = [];
+    localStorage.setItem(cartName, JSON.stringify(cart));
+    synchronizeCheckboxes();
+    setCart();
 }
 
 synchronizeCheckboxes();

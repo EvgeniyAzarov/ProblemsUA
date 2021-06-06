@@ -36,12 +36,16 @@
 \end{center}
 
 {% for problem in paper.problems %}
-    \begin{problem}
-        {% if problem.name %}
-            \textbf{problem.name}.
-        {% endif %}
-        problem.text
-    \end{problem}
+\begin{problem}
+{% spaceless %}
+{% if problem.name %}
+\textbf{
+    {{ problem.name }}
+}.
+{% endif %}
+{% endspaceless %}
+{{ problem.text }}
+\end{problem}
 {% endfor %}
 
 \end{document}
