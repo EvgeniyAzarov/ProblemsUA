@@ -1,10 +1,15 @@
 import json
+import os
+import tempfile
 from datetime import date
+from subprocess import Popen, PIPE
 
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.db.models import Q, When, Case
+from django.template.loader import get_template
+
 from .models import Problem, Source, Attribute
 
 
@@ -95,10 +100,28 @@ def get_compiled_paper(request):
                 }
         }
 
-        response = render(request, template_name='paper_template.tex', context=context)
-        response['Content-Disposition'] = \
-            f"attachment; " \
-            f"filename=problems_paper_{date.today().strftime('%d_%m_%y')}.tex"
+        template = get_template('paper_template.tex')
+        rendered_tpl = template.render(context).encode('utf-8')
+
+        if 'getTexButton' in request.POST:
+            response = HttpResponse(rendered_tpl)
+            response['Content-Disposition'] = \
+                f"attachment; " \
+                f"filename=problems_paper_{date.today().strftime('%d_%m_%y')}.tex"
+        elif 'getPdfButton' in request.POST:
+            with tempfile.TemporaryDirectory() as tempdir:
+                process = Popen(
+                    ['pdflatex', '-output-directory',  tempdir],
+                    stdin=PIPE,
+                    stdout=PIPE,
+                )
+                process.communicate(rendered_tpl)
+                with open(os.path.join(tempdir, 'texput.pdf'), 'rb') as f:
+                    pdf = f.read()
+            response = HttpResponse(pdf, content_type='application/pdf')
+        else:
+            raise Http404()
+
         return response
     else:
         raise Http404()
