@@ -9,6 +9,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.db.models import Q, When, Case
 from django.template.loader import get_template
+from django.conf import settings
 
 from .models import Problem, Source, Attribute
 
@@ -109,9 +110,9 @@ def get_compiled_paper(request):
                 f"attachment; " \
                 f"filename=problems_paper_{date.today().strftime('%d_%m_%y')}.tex"
         elif 'getPdfButton' in request.POST:
-            with tempfile.TemporaryDirectory() as tempdir:
+            with tempfile.TemporaryDirectory(dir=settings.TMP_DIR) as tempdir:
                 process = Popen(
-                    ['pdflatex', '-output-directory',  tempdir],
+                    ['pdflatex', '-output-directory', tempdir],
                     stdin=PIPE,
                     stdout=PIPE,
                 )

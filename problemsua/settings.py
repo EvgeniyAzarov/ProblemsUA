@@ -19,12 +19,16 @@ env = environ.Env(
     DJANGO_DEBUG=(bool, True),
     SESSION_COOKIE_SECURE=(bool, False),
     CSRF_COOKIE_SECURE=(bool, False),
-    SECURE_SSL_REDIRECT=(bool, False)
+    SECURE_SSL_REDIRECT=(bool, False),
+    TMP_DIR=(str, '/tmp'),
 )
 environ.Env.read_env()  # reading .env file
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Used for temporary files
+TMP_DIR = env('TMP_DIR')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
