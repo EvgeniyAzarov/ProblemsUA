@@ -21,6 +21,7 @@ env = environ.Env(
     CSRF_COOKIE_SECURE=(bool, False),
     SECURE_SSL_REDIRECT=(bool, False),
     TMP_DIR=(str, '/tmp'),
+    DJANGO_DATABASE=(str, 'sqlite'),
 )
 environ.Env.read_env()  # reading .env file
 
@@ -95,12 +96,22 @@ WSGI_APPLICATION = 'problemsua.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if env('DJANGO_DATABASE') == 'sqlite':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+elif env('DJANGO_DATABASE') == 'mysql':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'OPTIONS': {
+                'read_default_file': os.path.join(BASE_DIR, 'problemsua', '.mysql.cnf.example')
+            }
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
