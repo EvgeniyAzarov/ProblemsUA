@@ -108,7 +108,7 @@ elif env('DJANGO_DATABASE') == 'mysql':
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'OPTIONS': {
-                'read_default_file': os.path.join(BASE_DIR, 'problemsua', '.mysql.cnf.example')
+                'read_default_file': os.path.join(BASE_DIR, 'problemsua', 'problemsua', '.mysql.cnf.example')
             }
         }
     }
