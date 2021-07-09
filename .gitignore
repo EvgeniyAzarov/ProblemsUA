@@ -1,9 +1,14 @@
 venv/
 TA/
+tmp/
+under_rec_files/
 problemsua/.env
+problemsua/.mysql.cnf
 *.sqlite3
 .idea
 
 **/__pycache__/
 *.py[cod]
 /staticfiles/
+
+.*
