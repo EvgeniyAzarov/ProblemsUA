@@ -14,6 +14,9 @@ from pathlib import Path
 import os
 import environ
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 root = environ.Path(__file__) - 3  # get root of the project
 env = environ.Env(
     DJANGO_DEBUG=(bool, True),
@@ -23,10 +26,7 @@ env = environ.Env(
     TMP_DIR=(str, '/tmp'),
     DJANGO_DATABASE=(str, 'sqlite'),
 )
-environ.Env.read_env()  # reading .env file
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(env_file=os.path.join(BASE_DIR, '.env'))  # reading .env file
 
 # Used for temporary files
 TMP_DIR = env('TMP_DIR')
@@ -100,7 +100,7 @@ if env('DJANGO_DATABASE') == 'sqlite':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
 elif env('DJANGO_DATABASE') == 'mysql':
@@ -108,7 +108,7 @@ elif env('DJANGO_DATABASE') == 'mysql':
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'OPTIONS': {
-                'read_default_file': os.path.join(BASE_DIR, 'problemsua', 'problemsua', '.mysql.cnf')
+                'read_default_file': os.path.join(BASE_DIR, '.mysql.cnf')
             }
         }
     }
