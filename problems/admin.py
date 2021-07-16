@@ -14,7 +14,7 @@ class ProblemAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Meta', {
             'classes': ['collapse'],
-            'fields': ['source', 'difficulty', 'name', 'parents', 'attributes', 'themes'],
+            'fields': ['source', 'year', 'difficulty', 'name', 'parents', 'attributes', 'themes'],
         }),
         ('Problem', {
             'fields': ['text', 'solution'],

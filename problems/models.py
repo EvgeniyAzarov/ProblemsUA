@@ -50,7 +50,7 @@ class Problem(models.Model):
     attributes = models.ManyToManyField(Attribute, blank=True)
     themes = models.ManyToManyField(Theme, blank=True)
     parents = models.ManyToManyField('self', blank=True)
-    source = models.ForeignKey(Source, null=True, on_delete=models.SET_NULL)
+    source = models.ForeignKey(Source, null=True, blank=True, on_delete=models.SET_NULL)
     grade = models.CharField(max_length=100, null=True, blank=True)
     year = models.IntegerField(null=True, blank=True)
     solution = models.TextField(null=True, blank=True)
