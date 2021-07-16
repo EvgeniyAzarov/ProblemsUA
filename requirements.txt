@@ -20,3 +20,4 @@ sqlparse>=0.4.1
 urllib3>=1.26.4
 whitenoise>=5.2.0
 mysqlclient
+psycopg2-binary
