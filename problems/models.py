@@ -44,7 +44,7 @@ class Source(models.Model):
 
 class Problem(models.Model):
     name = models.CharField(max_length=255, blank=True,
-                            help_text="This field is not necessary")
+                            help_text="e.g. butterfly theorem")
     text = models.TextField()
     difficulty = models.FloatField(default=10, null=True, blank=True)
     attributes = models.ManyToManyField(Attribute, blank=True)
@@ -53,6 +53,8 @@ class Problem(models.Model):
     source = models.ForeignKey(Source, null=True, blank=True, on_delete=models.SET_NULL)
     grade = models.CharField(max_length=100, null=True, blank=True)
     year = models.IntegerField(null=True, blank=True)
+    number = models.IntegerField(null=True, blank=True,
+                                 help_text="Number, under which the problem was proposed")
     solution = models.TextField(null=True, blank=True)
     author = models.CharField(max_length=255, null=True, blank=True)
 
