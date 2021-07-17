@@ -26,5 +26,17 @@
         <p>
             {{ problem.solution }}
         </p>
+
+        {% if problem.source %}
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item">
+                    <b>Source</b>
+            </li>
+            <li class="list-group-item">
+                {{ problem.source }}
+            </li>
+        </ul>
+        {% endif %}
+
     </div>
 {% endblock %}
