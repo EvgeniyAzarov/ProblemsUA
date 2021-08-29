@@ -47,6 +47,8 @@ SECURE_SSL_REDIRECT = env('SECURE_SSL_REDIRECT')
 
 ALLOWED_HOSTS = ['*']
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 # Application definition
 
 INSTALLED_APPS = [
