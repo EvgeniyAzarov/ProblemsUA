@@ -1,6 +1,7 @@
 venv/
 TA/
 tmp/
+logs/
 under_rec_files/
 *.sqlite3
 
