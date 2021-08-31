@@ -65,3 +65,6 @@ class Problem(models.Model):
         full_text += self.text
         return f"[{self.id}] " + full_text[:80] + "..."
 
+    class Meta:
+        ordering = ['-id']
+

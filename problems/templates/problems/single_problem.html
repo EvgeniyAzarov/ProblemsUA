@@ -6,19 +6,9 @@
 
 {% block content %}
     <div class="container">
-            <h4 style="display: inline" >Problem </h4>
-            [{{ problem.id }}]
-        {% if problem.attributes.all %}
-            <ul class="list-group list-group-horizontal">
-                {% for attribute in problem.attributes.all %}
-                    <li class="list-group-item border-0 small">
-                        <div class="boxed" style="background-color:{{ attribute.color }}">
-                            {{ attribute.name }}
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+        <h4 style="display: inline">Problem </h4>
+        [{{ problem.id }}]
+
         <p>
             {{ problem.text }}
         </p>
@@ -27,16 +17,74 @@
             {{ problem.solution }}
         </p>
 
-        {% if problem.source %}
-        <ul class="list-group list-group-horizontal">
-            <li class="list-group-item">
-                    <b>Source</b>
-            </li>
-            <li class="list-group-item">
-                {{ problem.source }}
-            </li>
-        </ul>
-        {% endif %}
+        <table class="table table-sm table-borderless mb-0 small">
+            <tbody>
+
+            {% if problem.attributes.all %}
+                <tr>
+                    <th scope="row" style="width: 1%"><strong>Attributes</strong></th>
+                    <td>
+{#                        <ul class="list-group list-group-horizontal">#}
+{#                            {% for attribute in problem.attributes.all %}#}
+{#                                <li class="list-group-item border-0 small">#}
+{#                                    <div class="boxed" style="background-color:{{ attribute.color }}">#}
+{#                                        {{ attribute.name }}#}
+{#                                    </div>#}
+{#                                </li>#}
+{#                            {% endfor %}#}
+{#                        </ul>#}
+                        {{ problem.attributes.all|join:", " }}
+                    </td>
+                </tr>
+
+            {% endif %}
+
+            {% if problem.source %}
+                <tr>
+                    <th scope="row" style="width: 1%"><strong>Source</strong></th>
+                    <td>{{ problem.source }}</td>
+                </tr>
+            {% endif %}
+
+            {% if problem.year %}
+                <tr>
+                    <th scope="row" style="width: 1%"><strong>Year</strong></th>
+                    <td>{{ problem.year }}</td>
+                </tr>
+            {% endif %}
+
+            {% if problem.number %}
+                <tr>
+                    <th scope="row"><strong>Number</strong></th>
+                    <td>{{ problem.number }}</td>
+                </tr>
+            {% endif %}
+
+            {% if problem.difficulty %}
+                <tr>
+                    <th scope="row"><strong>Difficulty</strong></th>
+                    <td>{{ problem.difficulty }}</td>
+                </tr>
+            {% endif %}
+
+            {% if problem.grade %}
+                <tr>
+                    <th scope="row"><strong>Grade</strong></th>
+                    <td>{{ problem.grade }}</td>
+                </tr>
+            {% endif %}
+
+
+            {% if problem.themes %}
+                <tr>
+                    <th scope="row"><strong>Themes</strong></th>
+                    <td>
+                        {{ problem.themes.all|join:", " }}
+                    </td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
 
     </div>
 {% endblock %}
