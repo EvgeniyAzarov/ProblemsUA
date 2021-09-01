@@ -115,6 +115,7 @@ def get_compiled_paper(request):
                 f"filename=problems_paper_{date.today().strftime('%d_%m_%y')}.tex"
         elif 'getPdfButton' in request.POST:
             with tempfile.TemporaryDirectory(dir=settings.TMP_DIR) as tempdir:
+                tempdir = settings.TMP_DIR
                 process = Popen(
                     ['pdflatex', '-output-directory', tempdir],
                     stdin=PIPE,
