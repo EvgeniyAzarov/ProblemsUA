@@ -1,10 +1,16 @@
 import json
+import os
+import tempfile
 from datetime import date
+from subprocess import Popen, PIPE
 
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.db.models import Q, When, Case
+from django.template.loader import get_template
+from django.conf import settings
+
 from .models import Problem, Source, Attribute
 
 
@@ -15,27 +21,31 @@ def index(request):
 def problems_list(request, per_page=10):
     context = {}
     filter_context = {}
-    query = Q()
+    problems = Problem.objects.all()
 
     search_text = request.GET.get('search_text')
+    query = Q()
     if search_text:
         context['search_text'] = search_text
         query &= (Q(text__icontains=search_text) | Q(name__contains=search_text))
+    problems = problems.filter(query)
 
     source_id = request.GET.get('source_id')
+    query = Q()
     if source_id and source_id != "0":
         source_id = int(source_id)
         filter_context['selected_source_id'] = source_id
         query &= Q(source__id=source_id)
+    problems = problems.filter(query)
 
-    filter_context['selected_attributes'] = list(Attribute.objects.all().values_list('id', flat=True))
+    filter_context['selected_attributes'] = []
     selected_attributes = request.GET.getlist('selected_attributes', None)
     if selected_attributes:
         selected_attributes = list(map(int, selected_attributes))
-        query &= Q(attributes__in=selected_attributes)
+        for attribute in selected_attributes:
+            problems = problems.filter(attributes=attribute)
         filter_context['selected_attributes'] = selected_attributes
 
-    problems = Problem.objects.filter(query).distinct().order_by('id')
     paginator = Paginator(problems, per_page)
 
     page_number = request.GET.get('page')
@@ -95,10 +105,29 @@ def get_compiled_paper(request):
                 }
         }
 
-        response = render(request, template_name='paper_template.tex', context=context)
-        response['Content-Disposition'] = \
-            f"attachment; " \
-            f"filename=problems_paper_{date.today().strftime('%d_%m_%y')}.tex"
+        template = get_template('paper_template.tex')
+        rendered_tpl = template.render(context).encode('utf-8')
+
+        if 'getTexButton' in request.POST:
+            response = HttpResponse(rendered_tpl)
+            response['Content-Disposition'] = \
+                f"attachment; " \
+                f"filename=problems_paper_{date.today().strftime('%d_%m_%y')}.tex"
+        elif 'getPdfButton' in request.POST:
+            with tempfile.TemporaryDirectory(dir=settings.TMP_DIR) as tempdir:
+                tempdir = settings.TMP_DIR
+                process = Popen(
+                    ['pdflatex', '-output-directory', tempdir],
+                    stdin=PIPE,
+                    stdout=PIPE,
+                )
+                process.communicate(rendered_tpl)
+                with open(os.path.join(tempdir, 'texput.pdf'), 'rb') as f:
+                    pdf = f.read()
+            response = HttpResponse(pdf, content_type='application/pdf')
+        else:
+            raise Http404()
+
         return response
     else:
         raise Http404()

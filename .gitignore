@@ -1,9 +1,14 @@
 venv/
 TA/
-problemsua/.env
+tmp/
+logs/
+under_rec_files/
 *.sqlite3
-.idea
 
 **/__pycache__/
 *.py[cod]
-/collected-static/
+/staticfiles/
+
+.*
+!.env.example
+!.mysql.cnf.example

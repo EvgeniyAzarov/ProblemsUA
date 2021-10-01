@@ -11,7 +11,7 @@
 {% block content %}
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-3">
+            <div class="col-md-3">
                 {% include 'problems/filter.html' %}
                 <div class="card mt-2" id="cartCard">
                     <div class="card-title">
@@ -74,7 +74,7 @@
                                         {% if problem.attributes.all %}
                                             {% for attribute in problem.attributes.all %}
                                                 <li class="list-group-item border-0 small">
-                                                    <div class="boxed no-select"
+                                                    <div class="boxed user-select-none"
                                                          style="background-color:{{ attribute.color }}">
                                                         {{ attribute.name }}
                                                     </div>
